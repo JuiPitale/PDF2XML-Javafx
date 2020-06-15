@@ -1,23 +1,23 @@
 package com.example.pdf2xml;
 
 /**
- * Author : Jui, Aditya
+ * Author : Jui, Aditya, Eshita
  */
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.example.pdf2xml.models.Details;
 import com.example.pdf2xml.models.HTMLobject;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import org.apache.pdfbox.pdmodel.PDDocument;
 
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Controller {
     //Variables
@@ -49,7 +49,7 @@ public class Controller {
     //Selects pdffile path using filechooser and stores it
     public void choosePDF() {
         FileChooser fileChooser=new FileChooser();
-        fileChooser.setTitle(Constant.OPENPDF);
+        fileChooser.setTitle("Open PDF");
         File file=fileChooser.showOpenDialog(null);
         pdfPath=file.getAbsolutePath();
         System.out.println(pdfPath);
@@ -60,7 +60,7 @@ public class Controller {
     // Selects folderpath using directorychooser and stores it
     public void chooseXML(){
         DirectoryChooser chooser = new DirectoryChooser();
-        chooser.setTitle(Constant.OPENXMLFOLDER);
+        chooser.setTitle("Open XML Folder");
         File selectedDirectory = chooser.showDialog(null);
         folderPath=selectedDirectory.getAbsolutePath();
         folderPath.replace("\\", "/");
@@ -70,7 +70,15 @@ public class Controller {
     //Converts pdf to xml
     public void convert(){
         try {
-            Text2XML text2XML=new Text2XML(0.00,"",0);
+            
+            System.out.println("Converting...");
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Please don't close the main window, this will take a while!");
+            alert.setWidth(50);
+            alert.setHeight(50);
+            alert.showAndWait();
+            
             PDDocument pdf = PDDocument.load(new File(pdfPath));
 
             //extracting tables from pdf
@@ -96,7 +104,7 @@ public class Controller {
             String xmlPath = getXMLPath(pdfPath,folderPath);
 
             //use XMLtable and htmlObjectList for text2XML
-            text2XML.XMLGenerationCombined(htmlObjectList,xmlPath,XMLtable);
+            Text2XML.XMLGenerationCombined(htmlObjectList,xmlPath,XMLtable);
 
             //extracting images
             ImageExtractor.extractImages(pdf,folderPath);
@@ -112,10 +120,9 @@ public class Controller {
     }
 
     private String getXMLPath(String pdfPath,String folderPath) {
-        String[] path = pdfPath.split("\\\\");
+        String[] path = pdfPath.split("/");
         String pdfName = path[path.length-1];
-        String xmlPath = folderPath+"/"+pdfName.substring(0,pdfName.length()-4)+Constant.XMLFILEEXTENSION;
-        //System.out.println("XMLPATH:"+xmlPath);
+        String xmlPath = folderPath+"/"+pdfName.substring(0,pdfName.length()-5)+".xml";
         return xmlPath;
     }
 

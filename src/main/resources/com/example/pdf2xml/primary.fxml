@@ -41,7 +41,7 @@
         <AnchorPane layoutY="219.0" prefHeight="181.0" prefWidth="600.0" style="-fx-background-color: #000000;">
             <children>
                 <Label fx:id="XMLPath" layoutX="251.0" layoutY="65.0" prefHeight="26.0" prefWidth="291.0"
-                       style="-fx-background-color: #ffffff; -fx-border-color: #031b88;" text=" Output Folder Path :">
+                       style="-fx-background-color: #ffffff; -fx-border-color: #031b88;" text=" XML Path :">
                     <font>
                         <Font name="Constantia" size="16.0"/>
                     </font>
@@ -62,7 +62,7 @@
                 </Button>
                 <Button layoutX="56.0" layoutY="64.0" onAction="#handleChooseXML" prefHeight="26.0" prefWidth="143.0"
                         style="-fx-background-color: #031b88; -fx-border-color: #ffffff; -fx-border-width: 2px; -fx-background-radius: 60px; -fx-border-radius: 60px;"
-                        text="CHOOSE FOLDER" textFill="WHITE">
+                        text="CHOOSE XML" textFill="WHITE">
                     <font>
                         <Font name="Constantia" size="13.0"/>
                     </font>
