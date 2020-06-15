@@ -37,7 +37,7 @@ public class PDFTableStripper extends PDFTextStripper
         // This number changes with the quality of the pdf
         final double res = 72;
 
-        String configFileName="cofigFile.txt";
+        String configFileName="src/main/resources/com/example/pdf2xml/cofigFile.txt";
 
         PDFTableStripper stripper = new PDFTableStripper();
         stripper.setSortByPosition(true);
