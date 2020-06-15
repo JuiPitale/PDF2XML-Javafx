@@ -29,18 +29,30 @@ import java.util.Map;
 
 class Text2XML {
     //variables
-    private static List<String> headings = new ArrayList<>();
-    private static List<String> textData = new ArrayList<>();
-    private static Double lineSpace = 0.00;
-    private static Map<Double, Integer> linespacing = new HashMap<Double, Integer>();
-    private static List<Integer> processedElement = new ArrayList<>();
-    private static String XMLString = "";
-    private static Integer totalPages = 0;
+    private static List<String> headings ;
+    private static List<String> textData ;
+    private static Double lineSpace ;
+    private static Map<Double, Integer> linespacing ;
+    private static List<Integer> processedElement ;
+    private static String XMLString ;
+    private static Integer totalPages;
+
+
+
+    public Text2XML(Double space,String xml,Integer total){
+        headings=new ArrayList<>();
+        textData=new ArrayList<>();
+        lineSpace=space;
+        linespacing=new HashMap<Double, Integer>();
+        processedElement=new ArrayList<>();
+        XMLString=xml;
+        totalPages=total;
+    }
 
 
     //determines line spacing between lines
     //Taking differences between two values of top and ignoring 0
-    public static Double determineLineSpacing(List<HTMLobject> textList) {
+    public Double determineLineSpacing(List<HTMLobject> textList) {
         for (int index = 1; index < textList.size(); index++) {
             Double currLineSpacing = Math.abs(Double.valueOf(Math.round(((textList.get(index).getTop() - textList.get(index - 1).getTop()) * 100.00) / 100.00)));
             if (!linespacing.isEmpty()) {
@@ -59,7 +71,7 @@ class Text2XML {
     }
 
     //Join the respective blocks using font style and linespacing
-    public static List<HTMLobject> joinHTMLObjectList(List<HTMLobject> textList) {
+    public List<HTMLobject> joinHTMLObjectList(List<HTMLobject> textList) {
 
         List<HTMLobject> shrinkedList = new ArrayList<>();
         shrinkedList.add(textList.get(0));
@@ -69,7 +81,7 @@ class Text2XML {
              & check appendable or not and creating blocks of similar parts in pdf*/
 
             boolean appendable = checkDistanceBetween(textList.get(index - 1), textList.get(index));
-            boolean isFontequal = check_Font(textList.get(index - 1), textList.get(index));
+            boolean isFontequal = checkFont(textList.get(index - 1), textList.get(index));
             if (appendable) {
                 if (textList.get(index).getTop() > textList.get(index - 1).getTop()) {
                     if (isFontequal) {
@@ -105,7 +117,7 @@ class Text2XML {
     }
 
     //Creation of key value pair
-    public static void getKeyValuePairs(List<HTMLobject> shrinkedList) {
+    public void getKeyValuePairs(List<HTMLobject> shrinkedList) {
 
         //Initialization of array for keeping track of visited elements
 
@@ -159,7 +171,7 @@ class Text2XML {
 
                 } else if (Math.abs(shrinkedList.get(index).getTop() - shrinkedList.get(index + 1).getTop()) < lineSpace + 1) {
 
-                    if (shrinkedList.get(index).getFont_weight().equals("bold")) {
+                    if (shrinkedList.get(index).getFont_weight().equals(Constant.BOLD)) {
                         headings.add(shrinkedList.get(index).getValue());
                         textData.add(shrinkedList.get(index + 1).getValue());
                         processedElement.set(index, 1);
@@ -189,7 +201,7 @@ class Text2XML {
   If it is non zero then remove xml declaration
   else change > symbol with <page- pageno.>
    */
-    public static void XMLGenerator(String xmlFilePath, String tableString, int Index) {
+    public void XMLGenerator(String xmlFilePath, String tableString, int Index) {
         //Enables  to obtain DOM parser
         DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
         //For obtaining document from XML
@@ -262,7 +274,7 @@ class Text2XML {
     //main function which will call all the required functions & will be called in main
     //Iterate through all the pages
     //Create xml pagewise and append together
-    public static void XMLGenerationCombined(ArrayList<List<HTMLobject>> htmlObjectList, String XMLPath, List<String> XMLTable) {
+    public void XMLGenerationCombined(ArrayList<List<HTMLobject>> htmlObjectList, String XMLPath, List<String> XMLTable) {
         totalPages = htmlObjectList.size() - 1;
         if (htmlObjectList.size() - XMLTable.size() > 0) {
             for (int index = XMLTable.size(); index < htmlObjectList.size(); index++) {
@@ -271,7 +283,7 @@ class Text2XML {
         }
         for (int index = 0; index < htmlObjectList.size(); index++) {
             lineSpace = determineLineSpacing(htmlObjectList.get(index));
-            List<HTMLobject> shrinkedList = Text2XML.joinHTMLObjectList(htmlObjectList.get(index));
+            List<HTMLobject> shrinkedList = joinHTMLObjectList(htmlObjectList.get(index));
             getKeyValuePairs(shrinkedList);
             XMLGenerator(XMLPath, XMLTable.get(index), index);
             headings.clear();
@@ -282,7 +294,7 @@ class Text2XML {
 
 
     //This method checks the color, fontfamily, fontweight of Elements
-    public static boolean check_Font(HTMLobject element1, HTMLobject element2) {
+    public boolean checkFont(HTMLobject element1, HTMLobject element2) {
         if (element1.getColor().equals(element2.getColor()) & element1.getFont_family().equals(element2.getFont_family())
                 & element1.getFont_weight() == element2.getFont_weight()) {
             return true;
@@ -292,7 +304,7 @@ class Text2XML {
 
 
     //This method checks the distance between two elements: if less distance returns false else true
-    public static boolean checkDistanceBetween(HTMLobject element1, HTMLobject element2) {
+    public boolean checkDistanceBetween(HTMLobject element1, HTMLobject element2) {
         if (Math.abs(Math.round(((element1.getTop() - element2.getTop()) * 100.00) / 100.00)) > lineSpace + 9 || element1.getTop() == element2.getTop()) {
             return false;
         }
@@ -301,7 +313,7 @@ class Text2XML {
 
 
     //This method converts DOM Document to string
-    private static String convertDocumentToString(Document doc) {
+    private String convertDocumentToString(Document doc) {
         TransformerFactory tf = TransformerFactory.newInstance();
         Transformer transformer;
         try {
@@ -320,7 +332,7 @@ class Text2XML {
     }
 
     //This method converts string to DOM document
-    private static Document convertStringToDocument(String xmlStr) {
+    private Document convertStringToDocument(String xmlStr) {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
         try {

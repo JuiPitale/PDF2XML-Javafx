@@ -70,7 +70,7 @@ public class Controller {
     //Converts pdf to xml
     public void convert(){
         try {
-
+            Text2XML text2XML=new Text2XML(0.00,"",0);
             PDDocument pdf = PDDocument.load(new File(pdfPath));
 
             //extracting tables from pdf
@@ -96,7 +96,7 @@ public class Controller {
             String xmlPath = getXMLPath(pdfPath,folderPath);
 
             //use XMLtable and htmlObjectList for text2XML
-            Text2XML.XMLGenerationCombined(htmlObjectList,xmlPath,XMLtable);
+            text2XML.XMLGenerationCombined(htmlObjectList,xmlPath,XMLtable);
 
             //extracting images
             ImageExtractor.extractImages(pdf,folderPath);
