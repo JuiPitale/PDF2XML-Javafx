@@ -52,7 +52,6 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.1</version>
                 <configuration>
-
                     <mainClass>com.example.pdf2xml.App</mainClass>
                 </configuration>
             </plugin>
