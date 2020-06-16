@@ -1,5 +1,11 @@
 package com.example.pdf2xml;
 
+/**
+ *This class contains all String constants in use
+ *
+ * @author Jui Pitale
+ *
+ */
 public class Constant {
     static final String PRIMARY = "primary";
     static final String BOLD="bold";
