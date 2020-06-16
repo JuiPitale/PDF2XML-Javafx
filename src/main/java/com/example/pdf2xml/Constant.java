@@ -13,4 +13,7 @@ public class Constant {
     static final String XMLFILEEXTENSION=".xml";
     static final String FXMLFILEEXTENSION=".fxml";
     static final String PDFTOXMLCONVERSION="PDF to XML Converter";
+    static final String CONVERTING="Converting...";
+    static final String ALERTWHILECONVERSION="Please don't close the main window, this will take a while!";
+    static final String COMPLETE="The extraction is complete";
 }
