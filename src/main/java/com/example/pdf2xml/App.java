@@ -9,7 +9,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
- * Author:Jui
+ * Launches GUI
+ *
+ * @author Jui Pitale
  */
 public class App extends Application {
 
@@ -28,12 +30,23 @@ public class App extends Application {
         stage.show();
     }
 
-    //loads fxml file through resources
+
+
+    /**
+     * loads fxml file through resources
+     * @param fxml fxml file name
+     * @return  Parent
+     * @throws IOException
+     */
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + Constant.FXMLFILEEXTENSION));
         return fxmlLoader.load();
     }
 
+    /**
+     * main function that launches the application
+     * @param args
+     */
     public static void main(String[] args) {
         launch();
     }
