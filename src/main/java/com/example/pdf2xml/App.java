@@ -19,7 +19,7 @@ public class App extends Application {
 
     /**
      *
-     * @param stage
+     *
      * @throws IOException
      */
     @Override
@@ -38,14 +38,14 @@ public class App extends Application {
      * @return  Parent
      * @throws IOException
      */
-    private static Parent loadFXML(String fxml) throws IOException {
+    public static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + Constant.FXMLFILEEXTENSION));
         return fxmlLoader.load();
     }
 
     /**
      * main function that launches the application
-     * @param args
+     *
      */
     public static void main(String[] args) {
         launch();
